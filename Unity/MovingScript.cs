@@ -6,32 +6,32 @@ using System.IO;
 public class MovingScript : MonoBehaviour
 {
     [Header("Moving Settings")]
-    public Transform[] waypoints; // ¿şÀÌÆ÷ÀÎÆ® ¹è¿­
-    public float moveSpeed = 0.05f; // ÀÌµ¿ ¼Óµµ (1ÃÊ¿¡ 1¹ÌÅÍ)
+    public Transform[] waypoints; // ì›¨ì´í¬ì¸íŠ¸ ë°°ì—´
+    public float moveSpeed = 0.05f; // ì´ë™ ì†ë„ (1ì´ˆì— 1ë¯¸í„°)
     public float rotationSpeed = 0.05f;
-    private int currentWaypointIndex = 0; // ÇöÀç ¿şÀÌÆ÷ÀÎÆ® ÀÎµ¦½º
-    private float distanceToMove; // ÇöÀç ÀÌµ¿ÇØ¾ß ÇÒ °Å¸®
-    private Vector3 startPosition; // ½ÃÀÛ À§Ä¡
-    private Vector3 targetPosition; // ¸ñÇ¥ À§Ä¡
-    private Quaternion startRotation; // ½ÃÀÛ È¸Àü
-    private Quaternion targetRotation; // ¸ñÇ¥ È¸Àü
+    private int currentWaypointIndex = 0; // í˜„ì¬ ì›¨ì´í¬ì¸íŠ¸ ì¸ë±ìŠ¤
+    private float distanceToMove; // í˜„ì¬ ì´ë™í•´ì•¼ í•  ê±°ë¦¬
+    private Vector3 startPosition; // ì‹œì‘ ìœ„ì¹˜
+    private Vector3 targetPosition; // ëª©í‘œ ìœ„ì¹˜
+    private Quaternion startRotation; // ì‹œì‘ íšŒì „
+    private Quaternion targetRotation; // ëª©í‘œ íšŒì „
 
     public Color waypointColor = Color.red;
 
     private void Start()
     {
-        // ÀÌµ¿ °ü·Ã ÃÊ±âÈ­
+        // ì´ë™ ê´€ë ¨ ì´ˆê¸°í™”
         if (waypoints.Length == 0) return;
 
-        // Ã¹ ¹øÂ° ¿şÀÌÆ÷ÀÎÆ® ¼³Á¤
+        // ì²« ë²ˆì§¸ ì›¨ì´í¬ì¸íŠ¸ ì„¤ì •
         startPosition = transform.position;
         targetPosition = waypoints[currentWaypointIndex].position;
 
-        // Ã¹ ¹øÂ° ¿şÀÌÆ÷ÀÎÆ® È¸Àü ¼³Á¤
+        // ì²« ë²ˆì§¸ ì›¨ì´í¬ì¸íŠ¸ íšŒì „ ì„¤ì •
         startRotation = transform.rotation;
         targetRotation = waypoints[currentWaypointIndex].rotation;
 
-        // 5ÃÊ¸¶´Ù À§Ä¡ Ãâ·Â
+        // 5ì´ˆë§ˆë‹¤ ìœ„ì¹˜ ì¶œë ¥
         InvokeRepeating("PrintHumanPosition", 5f, 5f);
     }
 
@@ -39,24 +39,22 @@ public class MovingScript : MonoBehaviour
     {
         if (waypoints.Length == 0) return;
 
-        // ÀÌµ¿ÇÒ °Å¸® °è»ê
-        distanceToMove = moveSpeed * Time.deltaTime; // 1ÃÊ¿¡ 1¹ÌÅÍ ÀÌµ¿
+        // ì´ë™í•  ê±°ë¦¬ ê³„ì‚°
+        distanceToMove = moveSpeed * Time.deltaTime; // 1ì´ˆì— 1ë¯¸í„° ì´ë™
 
-        // ÀÌµ¿ °Å¸® °è»ê
+        // ì´ë™ ê±°ë¦¬ ê³„ì‚°
         float distanceRemaining = Vector3.Distance(transform.position, targetPosition);
         if (distanceRemaining > distanceToMove)
         {
-            // ¸ñÇ¥ À§Ä¡¿¡ µµ´ŞÇÏÁö ¾ÊÀº °æ¿ì
+            // ëª©í‘œ ìœ„ì¹˜ì— ë„ë‹¬í•˜ì§€ ì•Šì€ ê²½ìš°
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, distanceToMove);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {
-            // ¸ñÇ¥ À§Ä¡¿¡ µµ´ŞÇÑ °æ¿ì
             transform.position = targetPosition;
             transform.rotation = targetRotation;
 
-            // ´ÙÀ½ ¿şÀÌÆ÷ÀÎÆ®·Î ÀÌµ¿
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
             startPosition = targetPosition;
             targetPosition = waypoints[currentWaypointIndex].position;
@@ -65,14 +63,12 @@ public class MovingScript : MonoBehaviour
         }
     }
 
-    // 5ÃÊ¸¶´Ù À§Ä¡ Ãâ·Â
     private void PrintHumanPosition()
     {
         Vector3 position = transform.position;
         Debug.Log($"{gameObject.name}: ({position.x}, {position.y}, {position.z})");
     }
 
-    // µğ¹ö±×¿ë °æ·Î ½Ã°¢È­
     void OnDrawGizmos()
     {
         if (waypoints.Length == 0) return;
