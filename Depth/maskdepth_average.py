@@ -80,7 +80,6 @@ if __name__ == '__main__':
         
         masked_depth_values, mask = extract_depth_values(depth, args.mask_indices_path)
         
-        # Calculate the mean of the masked depth values
         mean_depth_value = np.mean(masked_depth_values)
         print(f'Mean depth value in the mask: {mean_depth_value}')
 
@@ -88,7 +87,6 @@ if __name__ == '__main__':
         np.savetxt(output_path, masked_depth_values, fmt='%f')
         print(f'Masked depth values saved to {output_path}')
 
-        # Apply mask to depth image
         masked_depth_image = np.zeros_like(depth)
         masked_depth_image[mask == 1] = depth[mask == 1]
         
