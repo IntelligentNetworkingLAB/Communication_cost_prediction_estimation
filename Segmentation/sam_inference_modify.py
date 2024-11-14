@@ -39,8 +39,6 @@ def show_box(box, ax):
 # Mouse callback
 def draw_point_and_box(event, x, y, flags, param):
     global point_mode, drawing_box, ix, iy, input_points, input_labels, input_boxes, image_copy, drawing
-    # Point mode
-    # positive / negative points
     if point_mode:
         if event == cv2.EVENT_LBUTTONDOWN:  
             # Left Mouse Click -> green(positive) point
