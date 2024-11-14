@@ -1,4 +1,4 @@
-# Communication_cost_prediction_estimation
+# Optimal Association for mmWave Communication in Indoor Environment:A Vision-guided Learning Approach
 
 ## About Research
 - In large indoor environments using millimeter-wave (mmWave) frequencies, efficient base station (BS) connectivity management is essential to maintain seamless connectivity and maximize network performance. Due to the high sensitivity of the mmWave band to environmental obstacles and user mobility, traditional BS connectivity mechanisms that rely on signal strength and threshold-based decisions often do not perform optimally.
